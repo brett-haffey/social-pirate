@@ -1,0 +1,54 @@
+<script>
+
+Trial.set(
+  "imagePath",
+  "stimuli/"
+);
+
+Trial.set(
+  "imageVariable",
+  null
+);
+Trial.set(
+  "textFeedback",
+  null
+);
+Trial.set(
+  "fdbck_winText",
+  "Well done you chose correctly!"
+);
+
+Trial.set(
+  "fdbck_loseText",
+  "Better luck next time!"
+);
+
+Trial.set(
+  "fdbck_tooslowText",
+  "Oops, you were too slow. Please respond quicker next time."
+);
+
+Trial.set(
+  "zero",
+  [0]
+);
+
+Trial.set(
+  "one",
+  [1]
+);
+
+Trial.set(
+  "left_pos",
+  [(- 0.52), (- 0.32)]
+);
+
+Trial.set(
+  "right_pos",
+  [0.52, (- 0.32)]
+);
+
+Trial.set_timer(function(){
+  Trial.submit();
+},100);
+</script>

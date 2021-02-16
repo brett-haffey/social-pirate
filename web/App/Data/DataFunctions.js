@@ -115,7 +115,10 @@ encrypt_obj = {
                 }
               }
 
-              function process_decrypted(this_decrypted_message,batch_single){
+              function process_decrypted(
+                this_decrypted_message,
+                batch_single
+              ){
                 var response_headers = [];
                 var usernames        = [];
                 for(var i = 0; i < this_decrypted_message.length ; i++) {
@@ -134,7 +137,6 @@ encrypt_obj = {
                     }
                   });
                 }
-
 
                 for(var i = 0; i < this_decrypted_message.length; i++){
                   delete(this_decrypted_message[i][""]);   // Delete blank column if present
@@ -217,26 +219,35 @@ encrypt_obj = {
                   });
                 } else {
                   default_filename = usernames[0];
-                  //download the data file here
-                  bootbox.prompt({
-                    title: "What would you like to name this file?",
-                    value: default_filename,
-                    callback: function(result) {
-                      if(result){
-                        var filename = result.toLowerCase().replace(".csv","") + ".csv";
-                        Collector.save_data (filename, Papa.unparse(this_decrypted_message,{
-                          quotes: false, //or array of booleans
-                          quoteChar: '"',
-                          escapeChar: '"',
-                          delimiter: ",",
-                          header: true,
-                          newline: "\r\n",
-                          skipEmptyLines: true, //or 'greedy',
-                          columns: null //or array of strings
-                        }));
+
+                  if(this_decrypted_message.length == 0){
+                    bootbox.alert("None of the data was succesfully decrypted - perhaps you used an invalid password?")
+                  } else {
+                    bootbox.prompt({
+                      title: "What would you like to name this file?",
+                      value: default_filename,
+                      callback: function(result) {
+                        if(result){
+                          var filename = result.toLowerCase().replace(".csv","") + ".csv";
+                          Collector.save_data (
+                            filename,
+                            Papa.unparse(
+                              this_decrypted_message,{
+                                quotes: false, //or array of booleans
+                                quoteChar: '"',
+                                escapeChar: '"',
+                                delimiter: ",",
+                                header: true,
+                                newline: "\r\n",
+                                skipEmptyLines: true, //or 'greedy',
+                                columns: null //or array of strings
+                              }
+                            )
+                          );
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
               }
               if(typeof(master_json.keys.archived) == "undefined"){
